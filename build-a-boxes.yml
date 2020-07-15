@@ -5,7 +5,7 @@
 
   vars:
     boxes:
-      # - ansible-centos8
+      - ansible-centos8
       - centos8
     versions: {}
 

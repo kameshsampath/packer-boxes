@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    boxes:
+      - ansible-centos8
+      - centos8
+    versions: {}
+
+  tasks:
+    - include_tasks: shared/build-a-box.yml
+      with_items: '{{ boxes }}'

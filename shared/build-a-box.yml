@@ -1,0 +1,34 @@
+---
+# Set a version for this new box.
+- name: Get current box version from Vagrant.
+  uri:
+    url: https://app.vagrantup.com/api/v1/box/kameshsampath/{{ item }}
+    body: json
+    return_content: true
+  register: box_info
+
+- name: Set the current version of the base box.
+  set_fact:
+    current_box_version: '{{ (box_info.content | from_json).current_version.version}}'
+  when: (box_info.content | from_json).current_version != None
+
+- name: Set the next minor version of the base box.
+  set_fact:
+    new_box_version: >-
+      {{ current_box_version.split('.')[0] }}.{{ current_box_version.split('.')[1] }}.{{ current_box_version.split('.')[2] | int + 1 }}
+  when: current_box_version is defined
+
+- name: Set the version
+  set_fact:
+    new_box_version: "{{ new_box_version | default('v0.1.0') }}"
+
+- name: Print info about current box.
+  debug:
+    msg: 'Building new kameshsampath/{{ item }} box version {{ new_box_version}}'
+
+# - debug: msg="{{new_box_version}}"
+# Build and push the new box.
+- name: Build and push the box using Packer.
+  command: >
+    packer build -var 'version={{ new_box_version }}' box-config.json
+    chdir={{ item }}

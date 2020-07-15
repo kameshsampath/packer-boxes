@@ -20,7 +20,7 @@
 
 - name: Set the version
   set_fact:
-    new_box_version: "{{ new_box_version | default('v0.1.0') }}"
+    new_box_version: "{{ new_box_version | default('0.1.0') }}"
 
 - name: Print info about current box.
   debug:

@@ -42,7 +42,7 @@
       "shutdown_command": "echo 'vagrant'|sudo -S /sbin/halt -h -p",
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
-      "vm_name": "packer-centos-8-x86_64",
+      "vm_name": "packer-ansible-centos-8-x86_64",
       "vboxmanage": [
         [
           "modifyvm",
@@ -62,7 +62,7 @@
   "post-processors": [
     [
       {
-        "output": "builds/{{.Provider}}-centos8.box",
+        "output": "builds/{{.Provider}}-ansible-centos8.box",
         "type": "vagrant"
       },
       {
